@@ -1,0 +1,8 @@
+resources:
+  - name: prod_eng_assignment
+    type: GitRepo
+    configuration:
+      gitProvider: github_integration
+      path: tamirdavid/prod_eng_assignment
+      branches:
+        include: dev
