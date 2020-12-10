@@ -11,7 +11,7 @@ resources:
     type: Image
     configuration:
       registry: artifactory_integration      # replace with your Artifactory integration
-      sourceRepository: vfrog-dev/  # required if registry is Artifactory
+      sourceRepository: vfrog-dev  # required if registry is Artifactory
       imageName: https://tamird.jfrog.io/artifactory/vfrog-dev/vfrog  # replace with your image path and name
       imageTag: latest
       autoPull: true
