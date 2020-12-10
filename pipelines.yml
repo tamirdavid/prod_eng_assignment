@@ -27,7 +27,7 @@ pipelines:
       - name: dev_docker_build
         type: DockerBuild
         configuration:
-          dockerFileLocation: .
+          dockerFileLocation: /application/.
           dockerFileName: Dockerfile
           dockerImageName: vfrog  # replace with your image path and name
           dockerImageTag: ${run_number}
