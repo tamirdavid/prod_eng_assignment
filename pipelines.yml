@@ -7,7 +7,7 @@ resources:
       branches:
         include: dev
 
-  - name: dbp_image
+  - name: artifactory_integration
     type: Image
     configuration:
       registry: artifactory_integration      # replace with your Artifactory integration
@@ -22,6 +22,7 @@ pipelines:
       environmentVariables:
         readOnly:
           my_env_var: "hello"
+
     steps:
       - name: dev_docker_build
         type: DockerBuild
@@ -34,7 +35,7 @@ pipelines:
           inputResources:
             - name: prod_eng_assignment
           integrations:
-            - name: dbp_image    # replace with your artifactory integration
+            - name: artifactory_integration    # replace with your artifactory integration
 
 
       - name: step_2
