@@ -12,7 +12,7 @@ resources:
     configuration:
       registry: artifactory_integration      # replace with your Artifactory integration
       sourceRepository: vfrog-dev  # required if registry is Artifactory
-      imageName: https://tamird.jfrog.io/artifactory/vfrog-dev/vfrog  # replace with your image path and name
+      imageName: vfrog-dev/vfrog  # replace with your image path and name
       imageTag: latest
       autoPull: true
 
@@ -30,7 +30,7 @@ pipelines:
           affinityGroup: dbp_group
           dockerFileLocation: /application/.
           dockerFileName: Dockerfile
-          dockerImageName: https://tamird.jfrog.io/artifactory/vfrog-dev/vfrog  # replace with your image path and name
+          dockerImageName: vfrog-dev/vfrog  # replace with your image path and name
           dockerImageTag: ${run_number}
           inputResources:
             - name: prod_eng_assignment
