@@ -7,12 +7,12 @@ resources:
       branches:
         include: dev
 
-  - name: artifactory_integration
+  - name: image_resource
     type: Image
     configuration:
       registry: artifactory_integration      # replace with your Artifactory integration
-      sourceRepository: vjfrog-dev   # required if registry is Artifactory
-      imageName: vfrog-dev/vfrog  # replace with your image path and name
+      sourceRepository: https://tamird.jfrog.io/artifactory/vfrog-dev/  # required if registry is Artifactory
+      imageName: vfrog  # replace with your image path and name
       imageTag: latest
       autoPull: true
 
@@ -39,7 +39,7 @@ pipelines:
       - name: docker_push
         type: DockerPush
         configuration:
-          targetRepository: vfrog-dev
+          targetRepository: https://tamird.jfrog.io/artifactory/vfrog-dev/
           integrations:
             - name: artifactory_integration    # replace with your artifactory integration
           inputSteps:
