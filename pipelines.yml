@@ -11,8 +11,8 @@ resources:
     type: Image
     configuration:
       registry: artifactory_integration      # replace with your Artifactory integration
-      sourceRepository: https://tamird.jfrog.io/artifactory/vfrog-dev/  # required if registry is Artifactory
-      imageName: vfrog  # replace with your image path and name
+      sourceRepository: vfrog-dev  # required if registry is Artifactory
+      imageName: https://tamird.jfrog.io/artifactory/vfrog-dev/vfrog  # replace with your image path and name
       imageTag: latest
       autoPull: true
 
@@ -29,7 +29,7 @@ pipelines:
         configuration:
           dockerFileLocation: /application/.
           dockerFileName: Dockerfile
-          dockerImageName: vfrog-dev/vfrog  # replace with your image path and name
+          dockerImageName: https://tamird.jfrog.io/artifactory/vfrog-dev/vfrog  # replace with your image path and name
           dockerImageTag: ${run_number}
           inputResources:
             - name: prod_eng_assignment
@@ -39,13 +39,13 @@ pipelines:
       - name: docker_push
         type: DockerPush
         configuration:
-          targetRepository: https://tamird.jfrog.io/artifactory/vfrog-dev/
+          targetRepository: vfrog-dev
           integrations:
             - name: artifactory_integration    # replace with your artifactory integration
           inputSteps:
             - name: dev_docker_build
           outputResources:
-            - name: artifactory_integration
+            - name: image_resource
 
       - name: step_2
         type: Bash
