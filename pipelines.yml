@@ -13,7 +13,7 @@ resources:
       registry: artifactory_integration      # replace with your Artifactory integration
       sourceRepository: https://tamird.jfrog.io/artifactory/vfrog-dev  # required if registry is Artifactory
       imageName: https://tamird.jfrog.io/artifactory/vfrog-dev/vfrog  # replace with your image path and name
-      imageTag: latest
+      imageTag: ${run_number}
       autoPull: true
 
 pipelines:
