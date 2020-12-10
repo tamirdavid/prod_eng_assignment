@@ -12,7 +12,7 @@ resources:
     configuration:
       registry: artifactory_integration      # replace with your Artifactory integration
       sourceRepository: vfrog-dev  # required if registry is Artifactory
-      imageName: vfrog-dev/vfrog  # replace with your image path and name
+      imageName: vfrog  # replace with your image path and name
       imageTag: latest
       autoPull: true
 
