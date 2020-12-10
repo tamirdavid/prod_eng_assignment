@@ -29,7 +29,7 @@ pipelines:
         configuration:
           dockerFileLocation: /application/.
           dockerFileName: Dockerfile
-          dockerImageName: vfrog-dev/vfrog  # replace with your image path and name
+          dockerImageName: https://tamird.jfrog.io/artifactory/vfrog-dev/vfrog  # replace with your image path and name
           dockerImageTag: ${run_number}
           inputResources:
             - name: prod_eng_assignment
