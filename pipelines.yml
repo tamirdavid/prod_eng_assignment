@@ -7,6 +7,12 @@ resources:
       branches:
         include: dev
 
+pipelines:
+  - name: vfrog_dev_pipeline
+    configuration:
+      environmentVariables:
+        readOnly:
+          my_env_var: "hello"
     steps:
       - name: step_1
         type: Bash
