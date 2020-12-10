@@ -12,7 +12,7 @@ resources:
         type: Bash
         configuration:
           inputResources:
-            - name: my_Git_Repository     # Trigger execution on code commit
+            - name: prod_eng_assignment
         execution:
           onExecute:
             - echo "Hello World!"
