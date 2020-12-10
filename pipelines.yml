@@ -35,7 +35,17 @@ pipelines:
             - name: prod_eng_assignment
           integrations:
             - name: artifactory_integration    # replace with your artifactory integration
-
+              -
+      - name: docker_push
+        type: DockerPush
+        configuration:
+          targetRepository: vfrog-dev
+          integrations:
+            - name: artifactory_integration    # replace with your artifactory integration
+          inputSteps:
+            - name: docker_build
+          outputResources:
+            - name: artifactory_integration
 
       - name: step_2
         type: Bash
