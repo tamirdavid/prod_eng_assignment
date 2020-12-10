@@ -43,7 +43,7 @@ pipelines:
           integrations:
             - name: artifactory_integration    # replace with your artifactory integration
           inputSteps:
-            - name: docker_build
+            - name: dev_docker_build
           outputResources:
             - name: artifactory_integration
 
