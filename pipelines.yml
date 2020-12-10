@@ -13,7 +13,7 @@ resources:
       registry: artifactory_integration      # replace with your Artifactory integration
       sourceRepository: https://tamird.jfrog.io/artifactory/vfrog-dev  # required if registry is Artifactory
       imageName: https://tamird.jfrog.io/artifactory/vfrog-dev/vfrog  # replace with your image path and name
-      imageTag: 1
+      imageTag: "1"
       autoPull: true
 
 pipelines:
@@ -31,7 +31,7 @@ pipelines:
           dockerFileLocation: /application/.
           dockerFileName: Dockerfile
           dockerImageName: vfrog-dev/vfrog  # replace with your image path and name
-          dockerImageTag: 1
+          dockerImageTag: "1"
           inputResources:
             - name: prod_eng_assignment
           integrations:
