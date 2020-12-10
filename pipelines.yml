@@ -11,8 +11,8 @@ resources:
     type: Image
     configuration:
       registry: artifactory_integration      # replace with your Artifactory integration
-      sourceRepository: docker_local   # required if registry is Artifactory
-      imageName: artifactory/vfrog-dev/vfrog  # replace with your image path and name
+      sourceRepository: vjfrog-dev   # required if registry is Artifactory
+      imageName: vfrog-dev/vfrog  # replace with your image path and name
       imageTag: latest
       autoPull: true
 
