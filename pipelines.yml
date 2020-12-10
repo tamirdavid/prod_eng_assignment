@@ -6,3 +6,22 @@ resources:
       path: tamirdavid/prod_eng_assignment
       branches:
         include: dev
+
+    steps:
+      - name: step_1
+        type: Bash
+        configuration:
+          inputResources:
+            - name: my_Git_Repository     # Trigger execution on code commit
+        execution:
+          onExecute:
+            - echo "Hello World!"
+
+      - name: step_2
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: step_1               # Execute this step after the prior step
+        execution:
+          onExecute:
+            - echo "Goodbye World!"
