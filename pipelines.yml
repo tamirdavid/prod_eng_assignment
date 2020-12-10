@@ -11,7 +11,7 @@ resources:
     type: Image
     configuration:
       registry: artifactory_integration      # replace with your Artifactory integration
-      sourceRepository: vfrog-dev  # required if registry is Artifactory
+      sourceRepository: https://tamird.jfrog.io/artifactory/vfrog-dev  # required if registry is Artifactory
       imageName: https://tamird.jfrog.io/artifactory/vfrog-dev/vfrog  # replace with your image path and name
       imageTag: latest
       autoPull: true
@@ -46,12 +46,3 @@ pipelines:
             - name: dev_docker_build
           outputResources:
             - name: image_resource
-
-      - name: step_2
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: dev_docker_build               # Execute this step after the prior step
-        execution:
-          onExecute:
-            - echo "Goodbye World!"
