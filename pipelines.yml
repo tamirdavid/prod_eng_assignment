@@ -7,7 +7,7 @@ resources:
       branches:
         include: dev
 
-  - name: image_resource_new3
+  - name: image-dev-resource
     type: Image
     configuration:
       registry: artifactory_integration      # replace with your Artifactory integration
@@ -36,6 +36,9 @@ pipelines:
             - name: prod_eng_assignment
           integrations:
             - name: artifactory_integration    # replace with your artifactory integration
+      execution:
+        - onComplete:
+            - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
 
       - name: docker_push
         type: DockerPush
@@ -47,4 +50,7 @@ pipelines:
           inputSteps:
             - name: dev_docker_build
           outputResources:
-            - name: image_resource_new3
+            - name: image-dev-resource
+      execution:
+        - onComplete:
+            - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
