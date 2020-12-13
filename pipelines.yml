@@ -97,6 +97,7 @@ pipelines:
 
         execution:
           onStart:
+            - export HELM_VERSION="3.4.1"
             - curl -LO "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - export PATH="/usr/local/bin/helm:$PATH"
