@@ -23,6 +23,21 @@ resources:
       buildName: vfrog-dev
       buildNumber: ${run_number}
 
+  - name: myHelmBuildInfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: artifactory_integration
+      buildName: dev_helmchart
+      buildNumber: ${run_number}
+
+  - name: dev_helm_chart
+      type: HelmChart
+      configuration:
+        sourceArtifactory: artifactory_integration
+        repository: vfrog_webapp_helm_repo
+        chart: vfrog_helm
+        version: latest
+
 
 pipelines:
   - name: vfrog_dev_pipeline
@@ -66,3 +81,26 @@ pipelines:
         execution:
          onComplete:
             - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
+
+      - name: dev_helm_publish
+        type: HelmPublish
+        configuration:
+          helmVersion: 3                            # optional, defaults to 2
+          chartPath: vfrog_helm
+          lint: true                       # optional, default false
+          autoPublishBuildInfo: true                     # default false
+          inputResources:
+            - name: prod_eng_assignment                     # required
+          outputResources:
+            - name: dev_helm_chart
+            - name: myHelmBuildInfo
+
+        execution:
+          onStart:
+            - echo "Preparing for work..."
+          onSuccess:
+            - echo "Job well done!"
+          onFailure:
+            - echo "uh oh, something went wrong"
+          onComplete: #always
+            - echo "Cleaning up some stuff"
