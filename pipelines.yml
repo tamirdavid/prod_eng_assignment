@@ -87,7 +87,7 @@ pipelines:
         configuration:
           helmVersion: 3                            # optional, defaults to 2
           chartPath: vfrog_helm
-          lint: true                       # optional, default false
+          #lint: true                       # optional, default false
           autoPublishBuildInfo: true                     # default false
           inputResources:
             - name: prod_eng_assignment                     # required
@@ -100,10 +100,12 @@ pipelines:
             - export HELM_VERSION="3.4.1"
             - curl -LO "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
-            - mkdir -p "/usr/local/helm-v$HELM_VERSION"
-            - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz" -C "/usr/local/helm-v$HELM_VERSION"
-            - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm
-            - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3
+            - ln -sf "linux-amd64/helm" /usr/local/bin/helm
+            - ln -sf "linux-amd64/helm" /usr/local/bin/helm3
+#            - mkdir -p "/usr/local/helm-v$HELM_VERSION"
+#            - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz" -C "/usr/local/helm-v$HELM_VERSION"
+#            - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm
+#            - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3
             - echo $PATH
             - helm version
           onSuccess:
