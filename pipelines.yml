@@ -38,7 +38,6 @@ resources:
         chart: vfrog_helm
         version: latest
 
-
 pipelines:
   - name: vfrog_dev_pipeline
     configuration:
@@ -102,12 +101,8 @@ pipelines:
             - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm3
-#            - mkdir -p "/usr/local/helm-v$HELM_VERSION"
-#            - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz" -C "/usr/local/helm-v$HELM_VERSION"
-#            - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm
-#            - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3
-            - echo $PATH
             - helm version
+            - env
           onSuccess:
             - echo "Job well done!"
           onFailure:
