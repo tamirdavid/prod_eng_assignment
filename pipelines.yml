@@ -103,6 +103,7 @@ pipelines:
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm3
             - helm version
+            - helm get values -a
             - env
           onSuccess:
             - echo "Job well done!"
