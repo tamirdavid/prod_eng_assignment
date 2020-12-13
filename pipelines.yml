@@ -101,8 +101,8 @@ pipelines:
             - curl -LO "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - echo $PATH
-            - helm3 version
             - export PATH="$PWD:$PATH"
+            - helm version
           onSuccess:
             - echo "Job well done!"
           onFailure:
