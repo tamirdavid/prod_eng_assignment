@@ -126,6 +126,7 @@ pipelines:
             - name: image_dev_resource
         execution:
           onStart:
+            - gcloud version
             - gcloud container clusters get-credentials vfrog --zone europe-west1-c --project natural-terra-298511
             - kubectl version
 
