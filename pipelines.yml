@@ -113,7 +113,7 @@ pipelines:
 #          valueFilePaths:
 #            - <path and filename>
           releaseName: vfrog_dev
-            flags: "--namespace dev"
+          flags: "--namespace dev"
           integrations:
             - name: gke_integration
           inputResources:
