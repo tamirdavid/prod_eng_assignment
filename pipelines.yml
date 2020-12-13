@@ -94,7 +94,6 @@ pipelines:
           outputResources:
             - name: dev_helm_chart
             - name: myHelmBuildInfo
-
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
@@ -102,9 +101,23 @@ pipelines:
             - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm3
-          onSuccess:
-            - echo "Job well done!"
+          onExecute:
+            - gcloud container clusters get-credentials vfrog --zone europe-west1-c --project natural-terra-298511
+            - kubectl version
           onFailure:
             - echo "uh oh, something went wrong"
           onComplete: #always
             - echo "Cleaning up some stuff"
+
+      - name: helm_deploy_dev_vfrog
+        type: HelmDeploy
+        configuration:
+          helmVersion: 3
+#          valueFilePaths:
+#            - <path and filename>
+          releaseName: vfrog_dev
+          integrations:
+            - name: gke_integration
+          inputResources:
+            - name: dev_helm_chart
+
