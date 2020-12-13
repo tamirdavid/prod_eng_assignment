@@ -16,6 +16,14 @@ resources:
       imageTag: latest
       autoPull: true
 
+  - name: myDockerBuildInfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: artifactory_integration
+      buildName: vfrog-dev
+      buildNumber: ${run_number}
+
+
 pipelines:
   - name: vfrog_dev_pipeline
     configuration:
@@ -44,6 +52,9 @@ pipelines:
         type: DockerPush
         configuration:
           affinityGroup: dbp_group
+          forceXrayScan: true
+          failOnScan: true
+          autoPublishBuildInfo: true
           targetRepository: vfrog-dev
           integrations:
             - name: artifactory_integration    # replace with your artifactory integration
