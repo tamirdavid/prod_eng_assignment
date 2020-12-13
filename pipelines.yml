@@ -84,6 +84,7 @@ pipelines:
       - name: dev_helm_publish
         type: HelmPublish
         configuration:
+          affinityGroup: dbp_group
           helmVersion: 3                            # optional, defaults to 2
           chartPath: vfrog_helm
           #lint: true                       # optional, default false
