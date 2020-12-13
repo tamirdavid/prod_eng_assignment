@@ -100,8 +100,10 @@ pipelines:
             - export HELM_VERSION="3.4.1"
             - curl -LO "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
-            - echo $PATH
-            - export PATH="$PWD:$PATH"
+            - mkdir -p "/usr/local/helm-v$HELM_VERSION"
+            - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz" -C "/usr/local/helm-v$HELM_VERSION"
+            - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm
+            - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3
             - echo $PATH
             - helm version
           onSuccess:
