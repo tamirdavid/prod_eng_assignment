@@ -7,7 +7,7 @@ resources:
       branches:
         include: dev
 
-  - name: image_resource_new
+  - name: image_resource_new1
     type: Image
     configuration:
       registry: artifactory_integration      # replace with your Artifactory integration
@@ -47,4 +47,4 @@ pipelines:
           inputSteps:
             - name: dev_docker_build
           outputResources:
-            - name: image_resource_new
+            - name: image_resource_new1
