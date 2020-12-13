@@ -102,9 +102,6 @@ pipelines:
             - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm3
-            - helm version
-            - helm template test vfrog_helm/
-            - env
           onSuccess:
             - echo "Job well done!"
           onFailure:
