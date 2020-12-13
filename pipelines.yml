@@ -37,7 +37,7 @@ pipelines:
           integrations:
             - name: artifactory_integration    # replace with your artifactory integration
       execution:
-        - onComplete:
+         onComplete:
             - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
 
       - name: docker_push
@@ -52,5 +52,5 @@ pipelines:
           outputResources:
             - name: image-dev-resource
       execution:
-        - onComplete:
+        onComplete:
             - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
