@@ -119,7 +119,7 @@ pipelines:
           releaseName: vfrog
           inputSteps:
             - name: dev_helm_publish
-          flags: "--namespace dev"
+          flags: "--namespace dev --debug --dry-run"
           integrations:
             - name: gke_integration
             - name: gke_integration_new
