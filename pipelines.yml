@@ -116,6 +116,7 @@ pipelines:
           flags: "--namespace dev"
           integrations:
             - name: gke_integration
+            - name: gke_integration_new
           inputResources:
             - name: dev_helm_chart
             - name: image_dev_resource
