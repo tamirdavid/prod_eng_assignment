@@ -31,8 +31,8 @@ resources:
       buildNumber: ${run_number}
 
   - name: dev_helm_chart
-      type: HelmChart
-      configuration:
+    type: HelmChart
+    configuration:
         sourceArtifactory: artifactory_integration
         repository: vfrog_webapp_helm_repo
         chart: vfrog_helm
