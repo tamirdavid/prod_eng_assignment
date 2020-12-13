@@ -8,7 +8,7 @@ image:
   repository: ${res_image_dev_resource_imageName}
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: ${res_simplehelmDockerImage_imageTag}
 
 imagePullSecrets: []
 nameOverride: ""
