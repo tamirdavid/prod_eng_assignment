@@ -120,7 +120,7 @@ pipelines:
             - name: dev_helm_chart
             - name: image_dev_resource
         execution:
-          onExecute:
+          onStart:
             - gcloud container clusters get-credentials vfrog --zone europe-west1-c --project natural-terra-298511
             - kubectl version
 
