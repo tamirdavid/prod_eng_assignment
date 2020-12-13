@@ -62,6 +62,7 @@ pipelines:
             - name: dev_docker_build
           outputResources:
             - name: image_dev_resource
+            - name: myDockerBuildInfo
         execution:
          onComplete:
             - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
