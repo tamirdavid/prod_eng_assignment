@@ -36,7 +36,7 @@ pipelines:
             - name: prod_eng_assignment
           integrations:
             - name: artifactory_integration    # replace with your artifactory integration
-      execution:
+        execution:
          onComplete:
             - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
 
@@ -51,6 +51,6 @@ pipelines:
             - name: dev_docker_build
           outputResources:
             - name: image-dev-resource
-      execution:
-        onComplete:
+        execution:
+         onComplete:
             - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
