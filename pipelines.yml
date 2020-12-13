@@ -102,6 +102,7 @@ pipelines:
             - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - echo $PATH
             - export PATH="$PWD:$PATH"
+            - echo $PATH
             - helm version
           onSuccess:
             - echo "Job well done!"
