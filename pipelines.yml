@@ -38,7 +38,6 @@ resources:
         chart: vfrog-helm
         version: latest
 
-
 pipelines:
   - name: vfrog_dev_pipeline
 #    configuration:
