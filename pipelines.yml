@@ -44,7 +44,6 @@ pipelines:
     configuration:
       environmentVariables:
         readOnly:
-          my_env_var: "hello"
 
     steps:
       - name: dev_docker_build
@@ -87,7 +86,7 @@ pipelines:
         configuration:
           affinityGroup: dbp_group
           helmVersion: 3                            # optional, defaults to 2
-          chartPath: vfrog_helm
+          chartPath: vfrog-helm
           #lint: true                       # optional, default false
           autoPublishBuildInfo: true                     # default false
           inputSteps:
