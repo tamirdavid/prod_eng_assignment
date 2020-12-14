@@ -35,12 +35,16 @@ resources:
     configuration:
         sourceArtifactory: artifactory_integration
         repository: vfrog_webapp_helm_repo
-        chart: vfroghelm
+        chart: vfrog_helm
         version: latest
+
 
 pipelines:
   - name: vfrog_dev_pipeline
-#    configuration:
+    configuration:
+      environmentVariables:
+        readOnly:
+          my_env_var: "hello"
 
     steps:
       - name: dev_docker_build
@@ -83,7 +87,8 @@ pipelines:
         configuration:
           affinityGroup: dbp_group
           helmVersion: 3                            # optional, defaults to 2
-          chartPath: vfrog_webapp_helm_repo/vfroghelm
+          chartPath: vfrog_helm
+          #lint: true                       # optional, default false
           autoPublishBuildInfo: true                     # default false
           inputSteps:
             - name: docker_push
@@ -101,7 +106,7 @@ pipelines:
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm3
           onFailure:
             - echo "uh oh, something went wrong"
-          onComplete:
+          onComplete: #always
             - echo "Cleaning up some stuff"
 
 
