@@ -87,7 +87,7 @@ pipelines:
         configuration:
           affinityGroup: dbp_group
           helmVersion: 3                            # optional, defaults to 2
-          chartPath: vfrog_webapp_helm_repo/
+          chartPath: vfrog_webapp_helm_repo/vfrog-chart
           #lint: true                       # optional, default false
           autoPublishBuildInfo: true                     # default false
           inputSteps:
@@ -100,6 +100,7 @@ pipelines:
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
+            - mkdir vfrog_webapp_helm_repo/
             - curl -LO "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm
