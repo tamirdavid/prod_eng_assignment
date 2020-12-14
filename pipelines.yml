@@ -42,8 +42,6 @@ resources:
 pipelines:
   - name: vfrog_dev_pipeline
     configuration:
-      environmentVariables:
-        readOnly:
 
     steps:
       - name: dev_docker_build
