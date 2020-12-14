@@ -87,7 +87,7 @@ pipelines:
         configuration:
           affinityGroup: dbp_group
           helmVersion: 3                            # optional, defaults to 2
-          chartPath: vfrog_helm
+          chartPath: vfrog-helm # Path in git repo.
           #lint: true                       # optional, default false
           autoPublishBuildInfo: true                     # default false
           inputSteps:
