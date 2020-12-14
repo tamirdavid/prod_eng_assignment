@@ -41,7 +41,7 @@ resources:
 
 pipelines:
   - name: vfrog_dev_pipeline
-    configuration:
+#    configuration:
 
     steps:
       - name: dev_docker_build
