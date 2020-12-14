@@ -38,7 +38,6 @@ resources:
         chart: vfrog-helm
         version: latest
 
-
 pipelines:
   - name: vfrog_dev_pipeline
     configuration:
@@ -115,7 +114,7 @@ pipelines:
           releaseName: vfrog
           inputSteps:
             - name: dev_helm_publish
-          flags: "--namespace dev --debug --set image.repository=${res_image_dev_resource_imageName} --set image.tag=65"
+          flags: "--namespace dev --debug --set image.repository=${res_image_dev_resource_imageName} --set image.tag=res_image_dev_resource_imageTag"
           integrations:
             - name: gke_integration
             - name: gke_integration_new
