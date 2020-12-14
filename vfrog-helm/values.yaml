@@ -8,7 +8,7 @@ image:
   repository: ${res_image_dev_resource_imageName}
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ${res_image_dev_resource_imageTag}
+  tag: latest
 
 imagePullSecrets:
     - name: regcred
