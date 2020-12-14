@@ -83,7 +83,7 @@ pipelines:
         configuration:
           affinityGroup: dbp_group
           helmVersion: 3                            # optional, defaults to 2
-          chartPath: vfrog-helm
+          chartPath: vfrog_webapp_helm_repo/vfroghelm
           autoPublishBuildInfo: true                     # default false
           inputSteps:
             - name: docker_push
