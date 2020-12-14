@@ -120,7 +120,7 @@ pipelines:
           releaseName: vfrog
           inputSteps:
             - name: dev_helm_publish
-          flags: "--namespace dev --debug --dry-run --set image.repository=${res_image_dev_resource_imageName} --set image.tag=65"
+          flags: "--namespace dev --debug --set image.repository=${res_image_dev_resource_imageName} --set image.tag=65"
           integrations:
             - name: gke_integration
             - name: gke_integration_new
