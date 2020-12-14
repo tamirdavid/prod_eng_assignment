@@ -30,7 +30,7 @@ resources:
       buildName: dev_helmchart
       buildNumber: ${run_number}
 
-  - name: dev_helm_chart
+  - name: dev_helm_chart1
     type: HelmChart
     configuration:
         sourceArtifactory: artifactory_integration
@@ -95,7 +95,7 @@ pipelines:
           inputResources:
             - name: prod_eng_assignment                     # required
           outputResources:
-            - name: dev_helm_chart
+            - name: dev_helm_chart1
             - name: myHelmBuildInfo
         execution:
           onStart:
@@ -124,7 +124,7 @@ pipelines:
             - name: gke_integration
             - name: gke_integration_new
           inputResources:
-            - name: dev_helm_chart
+            - name: dev_helm_chart1
             - name: image_dev_resource
         execution:
           onStart:
