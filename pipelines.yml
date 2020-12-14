@@ -35,7 +35,7 @@ resources:
     configuration:
         sourceArtifactory: artifactory_integration
         repository: vfrog_webapp_helm_repo
-        chart: vfrog-helm
+        chart: vfroghelm
         version: latest
 
 pipelines:
@@ -101,7 +101,7 @@ pipelines:
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm3
           onFailure:
             - echo "uh oh, something went wrong"
-          onComplete: #always
+          onComplete:
             - echo "Cleaning up some stuff"
 
 
