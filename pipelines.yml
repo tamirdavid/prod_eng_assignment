@@ -35,7 +35,7 @@ resources:
     configuration:
         sourceArtifactory: artifactory_integration
         repository: vfrog_webapp_helm_repo
-        chart: vfrog_helm
+        chart: vfrog-helm
         version: latest
 
 
@@ -87,7 +87,7 @@ pipelines:
         configuration:
           affinityGroup: dbp_group
           helmVersion: 3                            # optional, defaults to 2
-          chartPath: vfrog_helm
+          chartPath: vfrog-helm
           #lint: true                       # optional, default false
           autoPublishBuildInfo: true                     # default false
           inputSteps:
