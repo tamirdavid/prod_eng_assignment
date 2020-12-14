@@ -35,7 +35,7 @@ resources:
     configuration:
         sourceArtifactory: artifactory_integration
         repository: vfrog_webapp_helm_repo
-        chart: vfrog-helm
+        chart: vfrog_helm
         version: latest
 
 
