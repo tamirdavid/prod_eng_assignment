@@ -100,7 +100,7 @@ pipelines:
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
-            - mkdir vfrog_webapp_helm_repo
+            - tree /var/opt/jfrog/pipelines/data/vfrog_dev_pipeline/runs/100/steps/dev_helm_publish/293
             - curl -LO "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm
