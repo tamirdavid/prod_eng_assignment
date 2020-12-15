@@ -107,6 +107,8 @@ pipelines:
           onComplete: #always
             - echo "Cleaning up some stuff"
 
+
+
       - name: helm_deploy_{{gitBranch}}_vfrog
         type: HelmDeploy
         configuration:
