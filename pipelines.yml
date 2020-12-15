@@ -7,7 +7,7 @@ resources:
       branches:
         include: ^{{gitBranch}}$
 
-  - name: image_dev_resource
+  - name: image_{{gitBranch}}_resource
     type: Image
     configuration:
       registry: artifactory_integration      # replace with your Artifactory integration
@@ -75,7 +75,7 @@ pipelines:
           inputSteps:
             - name: dev_docker_build
           outputResources:
-            - name: image_dev_resource
+            - name: image_{{gitBranch}}_resource
             - name: myDockerBuildInfo
         execution:
          onComplete:
@@ -116,13 +116,13 @@ pipelines:
           releaseName: vfrog
           inputSteps:
             - name: dev_helm_publish
-          flags: "--namespace dev --debug --set image.repository=${res_image_dev_resource_imageName} --set image.tag=${run_number}" # --set image.tag=${run_number}
+          flags: "--namespace dev --debug --set image.repository=${res_image_${{{gitBranch}}}_resource_imageName} --set image.tag=${run_number}" # --set image.tag=${run_number}
           integrations:
             - name: gke_integration
             - name: gke_integration_new
           inputResources:
             - name: dev_helm_chart1
-            - name: image_dev_resource
+            - name: image_{{gitBranch}}_resource
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
