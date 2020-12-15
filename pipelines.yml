@@ -20,17 +20,17 @@ resources:
     type: BuildInfo
     configuration:
       sourceArtifactory: artifactory_integration
-      buildName: vfrog-{{gitBranch}}
+      buildName: vfrog-dev
       buildNumber: ${run_number}
 
   - name: myHelmBuildInfo
     type: BuildInfo
     configuration:
       sourceArtifactory: artifactory_integration
-      buildName: {{gitBranch}}_helmchart
+      buildName: dev_helmchart
       buildNumber: ${run_number}
 
-  - name: {{gitBranch}}_helm_chart1
+  - name: dev_helm_chart1
     type: HelmChart
     configuration:
         sourceArtifactory: artifactory_integration
@@ -39,20 +39,20 @@ resources:
         version: latest
 
 pipelines:
-  - name: vfrog_{{gitBranch}}_pipeline
+  - name: vfrog_dev_pipeline
     configuration:
       environmentVariables:
         readOnly:
           my_env_var: "hello"
 
     steps:
-      - name: {{gitBranch}}_docker_build
+      - name: dev_docker_build
         type: DockerBuild
         configuration:
           affinityGroup: dbp_group
           dockerFileLocation: /application/.
           dockerFileName: Dockerfile
-          dockerImageName: tamird.jfrog.io/vfrog-{{gitBranch}}/{{gitBranch}} # replace with your image path and name
+          dockerImageName: tamird.jfrog.io/vfrog-dev/dev # replace with your image path and name
           dockerImageTag: ${run_number}
           inputResources:
             - name: prod_eng_assignment
@@ -69,19 +69,19 @@ pipelines:
           forceXrayScan: true
           failOnScan: true
           autoPublishBuildInfo: true
-          targetRepository: vfrog-{{gitBranch}}
+          targetRepository: vfrog-dev
           integrations:
             - name: artifactory_integration    # replace with your artifactory integration
           inputSteps:
-            - name: {{gitBranch}}_docker_build
+            - name: dev_docker_build
           outputResources:
-            - name: image_{{gitBranch}}_resource
+            - name: image_dev_resource
             - name: myDockerBuildInfo
         execution:
          onComplete:
             - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
 
-      - name: {{gitBranch}}_helm_publish
+      - name: dev_helm_publish
         type: HelmPublish
         configuration:
           affinityGroup: dbp_group
@@ -93,7 +93,7 @@ pipelines:
           inputResources:
             - name: prod_eng_assignment                     # required
           outputResources:
-            - name: {{gitBranch}}_helm_chart1
+            - name: dev_helm_chart1
             - name: myHelmBuildInfo
         execution:
           onStart:
@@ -109,20 +109,20 @@ pipelines:
 
 
 
-      - name: helm_deploy_{{gitBranch}}_vfrog
+      - name: helm_deploy_dev_vfrog
         type: HelmDeploy
         configuration:
           helmVersion: 3
           releaseName: vfrog
           inputSteps:
-            - name: {{gitBranch}}_helm_publish
+            - name: dev_helm_publish
           flags: "--namespace ${BRANCH_VAR} --debug --set image.repository=${BRANCH_VAR} --set image.tag=${run_number}" # --set image.tag=${run_number}
           integrations:
             - name: gke_integration
             - name: gke_integration_new
           inputResources:
-            - name: {{gitBranch}}_helm_chart1
-            - name: image_{{gitBranch}}_resource
+            - name: dev_helm_chart1
+            - name: image_dev_resource
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
