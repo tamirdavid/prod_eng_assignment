@@ -7,7 +7,7 @@ resources:
       branches:
         include: ^{{gitBranch}}$
 
-  - name: image_{{gitBranch}}_resource
+  - name: image_dev_resource
     type: Image
     configuration:
       registry: artifactory_integration      # replace with your Artifactory integration
