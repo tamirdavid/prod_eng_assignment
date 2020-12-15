@@ -116,7 +116,7 @@ pipelines:
           releaseName: vfrog
           inputSteps:
             - name: {{gitBranch}}_helm_publish
-          flags: "--namespace $BRANCH_VAR --debug --set image.repository=${res_image_resource_imageName} --set image.tag=${run_number}" # --set image.tag=${run_number}
+          flags: "--namespace {{gitBranch}} --debug --set image.repository=${res_image_resource_imageName} --set image.tag=${run_number} " # --set image.tag=${run_number}
           integrations:
             - name: gke_integration
             - name: gke_integration_new
@@ -126,7 +126,7 @@ pipelines:
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
-            - export BRANCH_VAR={{gitBranch}}
+            #- export BRANCH_VAR={{gitBranch}}
             - curl -LO "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm
