@@ -1,10 +1,10 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: basic-ingress-{{ .Release.Namespace }}-test
+  name: basic-ingress-{{ .Release.Namespace }}
   namespace: {{ .Release.Namespace }}
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: "vfrog-dev-ip"
+    kubernetes.io/ingress.global-static-ip-name: "vfrog-{{ .Release.Namespace }}-ip"
 spec:
   backend:
     serviceName: {{ .Release.Namespace }}
