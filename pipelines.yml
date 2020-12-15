@@ -7,12 +7,12 @@ resources:
       branches:
         include: ^{{gitBranch}}$
 
-  - name: image_dev_resource
+  - name: image_{{gitBranch}}_resource
     type: Image
     configuration:
       registry: artifactory_integration      # replace with your Artifactory integration
       sourceRepository: docker-local  # required if registry is Artifactory
-      imageName: tamird.jfrog.io/vfrog-dev/dev # replace with your image path and name
+      imageName: tamird.jfrog.io/vfrog-{{gitBranch}}/{{gitBranch}} # replace with your image path and name
       imageTag: latest
       autoPull: true
 
@@ -20,17 +20,17 @@ resources:
     type: BuildInfo
     configuration:
       sourceArtifactory: artifactory_integration
-      buildName: vfrog-dev
+      buildName: vfrog-{{gitBranch}}
       buildNumber: ${run_number}
 
   - name: myHelmBuildInfo
     type: BuildInfo
     configuration:
       sourceArtifactory: artifactory_integration
-      buildName: dev_helmchart
+      buildName: {{gitBranch}}_helmchart
       buildNumber: ${run_number}
 
-  - name: dev_helm_chart1
+  - name: {{gitBranch}}_helm_chart1
     type: HelmChart
     configuration:
         sourceArtifactory: artifactory_integration
@@ -39,20 +39,20 @@ resources:
         version: latest
 
 pipelines:
-  - name: vfrog_dev_pipeline
+  - name: vfrog_{{gitBranch}}_pipeline
     configuration:
       environmentVariables:
         readOnly:
           my_env_var: "hello"
 
     steps:
-      - name: dev_docker_build
+      - name: {{gitBranch}}_docker_build
         type: DockerBuild
         configuration:
           affinityGroup: dbp_group
           dockerFileLocation: /application/.
           dockerFileName: Dockerfile
-          dockerImageName: tamird.jfrog.io/vfrog-dev/dev  # replace with your image path and name
+          dockerImageName: tamird.jfrog.io/vfrog-{{gitBranch}}/{{gitBranch}}  # replace with your image path and name
           dockerImageTag: ${run_number}
           inputResources:
             - name: prod_eng_assignment
@@ -60,7 +60,7 @@ pipelines:
             - name: artifactory_integration    # replace with your artifactory integration
         execution:
          onComplete:
-            - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
+            - echo "Running $pipeline_name | $step_name on Node ID $step_node_id - {{gitBranch}} {{gitBranch}}"
 
       - name: docker_push
         type: DockerPush
@@ -69,19 +69,19 @@ pipelines:
           forceXrayScan: true
           failOnScan: true
           autoPublishBuildInfo: true
-          targetRepository: vfrog-dev
+          targetRepository: vfrog-{{gitBranch}}
           integrations:
             - name: artifactory_integration    # replace with your artifactory integration
           inputSteps:
-            - name: dev_docker_build
+            - name: {{gitBranch}}_docker_build
           outputResources:
-            - name: image_dev_resource
+            - name: image_{{gitBranch}}_resource
             - name: myDockerBuildInfo
         execution:
          onComplete:
             - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
 
-      - name: dev_helm_publish
+      - name: {{gitBranch}}_helm_publish
         type: HelmPublish
         configuration:
           affinityGroup: dbp_group
@@ -93,7 +93,7 @@ pipelines:
           inputResources:
             - name: prod_eng_assignment                     # required
           outputResources:
-            - name: dev_helm_chart1
+            - name: {{gitBranch}}_helm_chart1
             - name: myHelmBuildInfo
         execution:
           onStart:
@@ -107,20 +107,20 @@ pipelines:
           onComplete: #always
             - echo "Cleaning up some stuff"
 
-      - name: helm_deploy_dev_vfrog
+      - name: helm_deploy_{{gitBranch}}_vfrog
         type: HelmDeploy
         configuration:
           helmVersion: 3
           releaseName: vfrog
           inputSteps:
-            - name: dev_helm_publish
-          flags: "--namespace dev --debug --set image.repository=${res_image_dev_resource_imageName} --set image.tag=${run_number}" # --set image.tag=${run_number}
+            - name: {{gitBranch}}_helm_publish
+          flags: "--namespace {{gitBranch}} --debug --set image.repository=${res_image_{{gitBranch}}_resource_imageName} --set image.tag=${run_number}" # --set image.tag=${run_number}
           integrations:
             - name: gke_integration
             - name: gke_integration_new
           inputResources:
-            - name: dev_helm_chart1
-            - name: image_dev_resource
+            - name: {{gitBranch}}_helm_chart1
+            - name: image_{{gitBranch}}_resource
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
