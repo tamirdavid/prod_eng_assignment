@@ -12,7 +12,7 @@ resources:
     configuration:
       registry: artifactory_integration      # replace with your Artifactory integration
       sourceRepository: docker-local  # required if registry is Artifactory
-      imageName: tamird.jfrog.io/vfrog-{{gitBranch}}/webapp-{{gitBranch} # replace with your image path and name
+      imageName: tamird.jfrog.io/vfrog-{{gitBranch}}/webapp-{{gitBranch}} # replace with your image path and name
       imageTag: latest
       autoPull: true
 
