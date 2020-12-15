@@ -13,3 +13,7 @@ spec:
       name: http
   selector:
     {{- include "vfrog_helm.selectorLabels" . | nindent 4 }}
+
+
+
+
