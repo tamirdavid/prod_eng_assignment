@@ -1,7 +1,3 @@
-{{- if .Values.ingress.enabled -}}
-  {{- $fullName := include "vfrog_helm.fullname" . -}}
-  {{- $svcPort := .Values.service.port -}}
-  {{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
@@ -13,5 +9,4 @@ spec:
   backend:
     serviceName: {{ .Release.Namespace }}
     servicePort: 80
-      {{- end }}
-    {{- end }}
+
