@@ -75,7 +75,7 @@ pipelines:
           inputSteps:
             - name: {{gitBranch}}_docker_build
           outputResources:
-            - name: image_{{gitBranch}}_resource
+            - name: image_dev_resource
             - name: myDockerBuildInfo
         execution:
          onComplete:
@@ -120,7 +120,7 @@ pipelines:
             - name: gke_integration_new
           inputResources:
             - name: {{gitBranch}}_helm_chart1
-            - name: image_{{gitBranch}}_resource
+            - name: image_dev_resource
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
