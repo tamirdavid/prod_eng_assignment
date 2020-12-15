@@ -39,20 +39,20 @@ resources:
         version: latest
 
 pipelines:
-  - name: vfrog_{{gitBranch}}_pipeline
+  - name: vfrog_dev_pipeline
     configuration:
       environmentVariables:
         readOnly:
           my_env_var: "hello"
 
     steps:
-      - name: {{gitBranch}}_docker_build
+      - name: dev_docker_build
         type: DockerBuild
         configuration:
           affinityGroup: dbp_group
           dockerFileLocation: /application/.
           dockerFileName: Dockerfile
-          dockerImageName: tamird.jfrog.io/vfrog-{{gitBranch}}/{{gitBranch}}  # replace with your image path and name
+          dockerImageName: tamird.jfrog.io/vfrog-dev/dev # replace with your image path and name
           dockerImageTag: ${run_number}
           inputResources:
             - name: prod_eng_assignment
@@ -69,13 +69,13 @@ pipelines:
           forceXrayScan: true
           failOnScan: true
           autoPublishBuildInfo: true
-          targetRepository: vfrog-{{gitBranch}}
+          targetRepository: vfrog-dev
           integrations:
             - name: artifactory_integration    # replace with your artifactory integration
           inputSteps:
-            - name: {{gitBranch}}_docker_build
+            - name: dev_docker_build
           outputResources:
-            - name: image_{{gitBranch}}_resource
+            - name: image_dev_resource
             - name: myDockerBuildInfo
         execution:
          onComplete:
