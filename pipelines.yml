@@ -126,7 +126,6 @@ pipelines:
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
-            #- export BRANCH_VAR={{gitBranch}}
             - curl -LO "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm
