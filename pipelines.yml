@@ -128,6 +128,5 @@ pipelines:
             - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm3
-            - gcloud version
             - gcloud app update
             - gcloud container clusters get-credentials vfrog --zone europe-west1-c --project vfrog-gke
