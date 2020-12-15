@@ -69,7 +69,7 @@ pipelines:
           forceXrayScan: true
           failOnScan: true
           autoPublishBuildInfo: true
-          targetRepository: vfrog-dev
+          targetRepository: vfrog
           integrations:
             - name: artifactory_integration    # replace with your artifactory integration
           inputSteps:
