@@ -15,4 +15,3 @@ spec:
     servicePort: 80
       {{- end }}
     {{- end }}
-  {{- end }}
