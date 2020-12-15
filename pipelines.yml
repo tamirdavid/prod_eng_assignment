@@ -81,7 +81,7 @@ pipelines:
          onComplete:
             - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
 
-      - name: {{gitBranch}}_helm_publish
+      - name: dev_helm_publish
         type: HelmPublish
         configuration:
           affinityGroup: dbp_group
@@ -93,7 +93,7 @@ pipelines:
           inputResources:
             - name: prod_eng_assignment                     # required
           outputResources:
-            - name: {{gitBranch}}_helm_chart1
+            - name: dev_helm_chart1
             - name: myHelmBuildInfo
         execution:
           onStart:
@@ -107,20 +107,20 @@ pipelines:
           onComplete: #always
             - echo "Cleaning up some stuff"
 
-      - name: helm_deploy_{{gitBranch}}_vfrog
+      - name: helm_deploy_dev_vfrog
         type: HelmDeploy
         configuration:
           helmVersion: 3
           releaseName: vfrog
           inputSteps:
-            - name: {{gitBranch}}_helm_publish
+            - name: dev_helm_publish
           flags: "--namespace {{gitBranch}} --debug --set image.repository=${res_image_{{gitBranch}}_resource_imageName} --set image.tag=${run_number}" # --set image.tag=${run_number}
           integrations:
             - name: gke_integration
             - name: gke_integration_new
           inputResources:
-            - name: {{gitBranch}}_helm_chart1
-            - name: image_{{gitBranch}}_resource
+            - name: dev_helm_chart1
+            - name: image_dev_resource
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
