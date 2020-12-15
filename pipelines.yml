@@ -5,7 +5,7 @@ resources:
       gitProvider: github_integration
       path: tamirdavid/prod_eng_assignment
       branches:
-        include: {{gitBranch}}
+        include: ^{{gitBranch}}$
 
   - name: image_dev_resource
     type: Image
