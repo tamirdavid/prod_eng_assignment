@@ -38,6 +38,9 @@ resources:
         chart: vfrog-helm
         version: latest
 
+
+
+
 pipelines:
   - name: vfrog_{{gitBranch}}_pipeline
     configuration:
