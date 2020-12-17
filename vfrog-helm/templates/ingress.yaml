@@ -12,7 +12,7 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: dev
+              serviceName: dev.dev
               servicePort: 80
             path: /dev
           - backend:
