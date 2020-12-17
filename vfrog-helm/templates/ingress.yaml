@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: basic-ingress-{{ .Release.Namespace }}
-  namespace: {{ .Release.Namespace }}
+  name: basic-ingress
+  namespace: default
   annotations:
     kubernetes.io/ingress.global-static-ip-name: "vfrog-{{ .Release.Namespace }}-ip"
 
@@ -14,7 +14,13 @@ spec:
           - backend:
               serviceName: dev
               servicePort: 80
-            path: /
-
-
+            path: /dev
+          - backend:
+              serviceName: test
+              servicePort: 80
+            path: /prod
+          - backend:
+              serviceName: prod
+              servicePort: 80
+            path: /test
 
