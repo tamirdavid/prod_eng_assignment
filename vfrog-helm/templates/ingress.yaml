@@ -5,22 +5,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   annotations:
     kubernetes.io/ingress.global-static-ip-name: "vfrog-{{ .Release.Namespace }}-ip"
-    cert-manager.io/cluster-issuer: letsencrypt
-    kubernetes.io/tls-acme: "true"
 spec:
-  tls:
-    - hosts:
-        - dev.clicorona.xyz
-      secretName: letsencrypt
-  rules:
-    - host: dev.clicorona.xyz
-      http:
-        paths:
-          - backend:
-              serviceName: {{ .Release.Namespace }}
-              servicePort: 80
-            path: /
-
-
-
+  backend:
+    serviceName: {{ .Release.Namespace }}
+    servicePort: 80
 
