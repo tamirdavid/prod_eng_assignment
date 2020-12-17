@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: basic-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "vfrog-{{ .Release.Namespace }}-ip"
+
+spec:
+  rules:
+    - host: {{ .Release.Namespace }}.clicorona.xyz
+      http:
+        paths:
+          - backend:
+              serviceName: {{ .Release.Namespace }}
+              servicePort: 80
+            path: /
