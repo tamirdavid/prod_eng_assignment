@@ -3,4 +3,5 @@ cert.yaml
 cluster_issuer_new.yaml
 cluster-issuer2.yaml
 basic-ingress2.yaml
+issuer.yaml
 issuer_certificate.yaml
