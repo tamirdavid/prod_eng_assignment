@@ -8,10 +8,10 @@ metadata:
 
 spec:
   rules:
-    - host: dev.clicorona.xyz
+    - host: {{ .Release.Namespace }}.clicorona.xyz
       http:
         paths:
           - backend:
-              serviceName: dev
+              serviceName: {{ .Release.Namespace }}
               servicePort: 80
             path: /
