@@ -6,7 +6,11 @@ metadata:
   annotations:
     kubernetes.io/ingress.global-static-ip-name: "vfrog-{{ .Release.Namespace }}-ip"
 spec:
-  backend:
-    serviceName: {{ .Release.Namespace }}
-    servicePort: 80
-
+  rules:
+    - host: dev.clicorona.xyz
+      http:
+        paths:
+          - backend:
+              serviceName: dev
+              servicePort: 80
+            path: /
