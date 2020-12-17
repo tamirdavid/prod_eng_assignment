@@ -20,3 +20,7 @@ spec:
               serviceName: {{ .Release.Namespace }}
               servicePort: 80
             path: /
+
+
+
+
