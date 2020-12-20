@@ -1,9 +1,9 @@
 resources:
-  - name: prod_eng_assignment
+  - name: prod_eng_assignment2
     type: GitRepo
     configuration:
       gitProvider: github_integration
-      path: tamirdavid/prod_eng_assignment
+      path: tamirdavid/prod_eng_assignment2
       branches:
         include: ^{{gitBranch}}$
 
@@ -11,7 +11,7 @@ resources:
 # test dont move to test
 
 
-  - name: image_resource1
+  - name: image_resource2
     type: Image
     configuration:
       registry: artifactory_integration      # replace with your Artifactory integration
@@ -21,7 +21,7 @@ resources:
       autoPull: true
 
 
-  - name: myDockerBuildInfo
+  - name: myDockerBuildInfo1
     type: BuildInfo
     configuration:
       sourceArtifactory: artifactory_integration
@@ -35,7 +35,7 @@ resources:
       buildName: vfrog-rc
       buildNumber: ${run_number}
 
-  - name: myHelmBuildInfo
+  - name: myHelmBuildInfo1
     type: BuildInfo
     configuration:
       sourceArtifactory: artifactory_integration
@@ -70,7 +70,7 @@ pipelines:
           dockerImageName: tamird.jfrog.io/vfrog/{{gitBranch}} # replace with your image path and name
           dockerImageTag: ${run_number}
           inputResources:
-            - name: prod_eng_assignment
+            - name: prod_eng_assignment2
           integrations:
             - name: artifactory_integration    # replace with your artifactory integration
         execution:
@@ -90,8 +90,8 @@ pipelines:
           inputSteps:
             - name: {{gitBranch}}_docker_build
           outputResources:
-            - name: image_resource1
-            - name: myDockerBuildInfo
+            - name: image_resource2
+            - name: myDockerBuildInfo1
         execution:
          onComplete:
             - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
@@ -106,10 +106,10 @@ pipelines:
           inputSteps:
             - name: docker_push
           inputResources:
-            - name: prod_eng_assignment                     # required
+            - name: prod_eng_assignment2                     # required
           outputResources:
             - name: {{gitBranch}}_helm_chart1
-            - name: myHelmBuildInfo
+            - name: myHelmBuildInfo1
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
@@ -129,13 +129,13 @@ pipelines:
           releaseName: vfrog
           inputSteps:
             - name: {{gitBranch}}_helm_publish
-          flags: --namespace {{gitBranch}} --debug --set image.repository=${res_image_resource1_imageName} --set image.tag=${run_number} # --set image.tag=${run_number}
+          flags: --namespace {{gitBranch}} --debug --set image.repository=${res_image_resource2_imageName} --set image.tag=${run_number} # --set image.tag=${run_number}
           integrations:
             - name: gke_integration
             - name: gke_integration_new
           inputResources:
             - name: {{gitBranch}}_helm_chart1
-            - name: image_resource1
+            - name: image_resource2
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
@@ -158,7 +158,7 @@ pipelines:
             inputSteps:
               - name: helm_deploy_{{gitBranch}}_vfrog
             inputResources:
-              - name: myDockerBuildInfo
+              - name: myDockerBuildInfo1
                 trigger: true
             outputResources:
               - name: myDockerPromotionBuildInfo
