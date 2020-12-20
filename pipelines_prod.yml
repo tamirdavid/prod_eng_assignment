@@ -1,5 +1,5 @@
 resources:
-  - name: prod_eng_assignment2
+  - name: prod_eng_assignment3
     type: GitRepo
     configuration:
       gitProvider: github_integration
@@ -49,7 +49,7 @@ pipelines:
           dockerImageName: tamird.jfrog.io/vfrog/{{gitBranch}} # replace with your image path and name
           dockerImageTag: ${run_number}
           inputResources:
-            - name: prod_eng_assignment2
+            - name: prod_eng_assignment3
           integrations:
             - name: artifactory_integration    # replace with your artifactory integration
         execution:
