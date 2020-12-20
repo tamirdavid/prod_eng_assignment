@@ -3,7 +3,7 @@ resources:
     type: GitRepo
     configuration:
       gitProvider: github_integration
-      path: tamirdavid/prod_eng_assignment2
+      path: tamirdavid/prod_eng_assignment
       branches:
         include: ^{{gitBranch}}$
 
