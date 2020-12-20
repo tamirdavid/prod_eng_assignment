@@ -1,7 +1,7 @@
 FROM nginx:latest
 
-RUN rm -rf /usr/share/nginx/html/index.html 
+RUN rm -rf /usr/share/nginx/
 
-COPY index.html js/ css/ fontawesome/ img/ /usr/share/nginx/html/
+COPY html/ /usr/share/nginx/
 
 EXPOSE 80
