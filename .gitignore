@@ -1,4 +1,3 @@
-pipelines_test.yml
 pipelines_prod.yml
 pipelines_dev.yml
 pipelines.yml
