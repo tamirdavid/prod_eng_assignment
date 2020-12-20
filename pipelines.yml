@@ -146,7 +146,7 @@ pipelines:
         configuration:
             #inherits from bash
             targetRepository: vfrog
-            includeDependencies: true   # default false
+            includeDependencies: false   # default false
             comment: "promote to production"
             copy: true
 #            inputSteps:
