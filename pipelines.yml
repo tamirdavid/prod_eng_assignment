@@ -30,7 +30,7 @@ resources:
       sourceArtifactory: artifactory_integration
       repository: vfrogProdBuilds
       chart: vfrog-helm
-      version: latest
+      version: ${run_number}
 
 pipelines:
   - name: vfrog_{{gitBranch}}_pipeline
