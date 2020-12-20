@@ -145,8 +145,8 @@ pipelines:
         type: PromoteBuild
         configuration:
             #inherits from bash
-            targetRepository:      vfrog/prod
-            includeDependencies:   true   # default false
+            targetRepository: vfrog
+            includeDependencies: true   # default false
             comment: "promote to production"
             copy: true
             inputSteps:
