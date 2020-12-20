@@ -1,9 +1,10 @@
-pipelines_test.yml
+pipelines_prod.yml
 pipelines_dev.yml
-clusterissuer.yaml
+pipelines.yml
 ing_dev.yaml
 ing_prod.yaml
 ing_test.yaml
+clusterissuer.yaml
 basic-ingress.yaml
 cert.yaml
 cluster_issuer_new.yaml
