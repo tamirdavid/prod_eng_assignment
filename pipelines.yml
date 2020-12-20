@@ -145,10 +145,12 @@ pipelines:
         type: PromoteBuild
         configuration:
             #inherits from bash
-            targetRepository: vfrog
-            includeDependencies: false   # default false
+            targetRepository: vfrogProdBuilds
+            includeDependencies: true   # default false
             comment: "promote to production"
             copy: true
+            inputSteps:
+              - name: helm_deploy_{{gitBranch}}_vfrog
             inputResources:
               - name: myDockerBuildInfo
                 trigger: true
