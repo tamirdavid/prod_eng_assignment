@@ -7,10 +7,6 @@ resources:
       branches:
         include: ^{{gitBranch}}$
 
-
-# test dont move to test
-
-
   - name: image_resource2
     type: Image
     configuration:
