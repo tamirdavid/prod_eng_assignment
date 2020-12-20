@@ -153,7 +153,7 @@ pipelines:
 #              - name: helm_deploy_{{gitBranch}}_vfrog
             inputResources:
               - name: myDockerBuildInfo
-                trigger: false
+                trigger: true
             outputResources:
               - name: myDockerPromotionBuildInfo
         execution:
