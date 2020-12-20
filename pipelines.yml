@@ -73,6 +73,9 @@ pipelines:
          onComplete:
             - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
 
+
+
+
       - name: docker_push
         type: DockerPush
         configuration:
