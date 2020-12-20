@@ -39,6 +39,13 @@ resources:
         version: latest
 
 pipelines:
+  - name: vfrog_{{gitBranch}}_pipeline
+    configuration:
+      environmentVariables:
+        readOnly:
+          my_env_var: "hello"
+
+    steps:
       - name: helm_deploy_{{gitBranch}}_vfrog
         type: HelmDeploy
         configuration:
