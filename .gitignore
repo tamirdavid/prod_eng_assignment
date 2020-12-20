@@ -1,3 +1,4 @@
+pipelines.yml
 ing.yaml
 clusterissuer.yaml
 basic-ingress.yaml
