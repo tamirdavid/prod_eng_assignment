@@ -157,7 +157,6 @@ pipelines:
       - name: docker_push_rc
         type: DockerPush
         configuration:
-            affinityGroup: dbp_group
             forceXrayScan: true
             failOnScan: true
             autoPublishBuildInfo: true
