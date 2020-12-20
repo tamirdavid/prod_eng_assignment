@@ -1,0 +1,146 @@
+resources:
+  - name: prod_eng_assignment
+    type: GitRepo
+    configuration:
+      gitProvider: github_integration
+      path: tamirdavid/prod_eng_assignment
+      branches:
+        include: ^{{gitBranch}}$
+
+
+# test dont move to test
+
+
+  - name: image_resource1
+    type: Image
+    configuration:
+      registry: artifactory_integration      # replace with your Artifactory integration
+      sourceRepository: docker-local  # required if registry is Artifactory
+      imageName: tamird.jfrog.io/vfrog/{{gitBranch}} # replace with your image path and name
+      imageTag: latest
+      autoPull: true
+
+  - name: myDockerBuildInfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: artifactory_integration
+      buildName: vfrog-{{gitBranch}}
+      buildNumber: ${run_number}
+
+  - name: myHelmBuildInfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: artifactory_integration
+      buildName: {{gitBranch}}_helmchart
+      buildNumber: ${run_number}
+
+  - name: {{gitBranch}}_helm_chart1
+    type: HelmChart
+    configuration:
+        sourceArtifactory: artifactory_integration
+        repository: vfrog_webapp_helm_repo
+        chart: vfrog-helm
+        version: latest
+
+
+
+
+pipelines:
+  - name: vfrog_{{gitBranch}}_pipeline
+    configuration:
+      environmentVariables:
+        readOnly:
+          my_env_var: "hello"
+
+    steps:
+      - name: {{gitBranch}}_docker_build
+        type: DockerBuild
+        configuration:
+          affinityGroup: dbp_group
+          dockerFileLocation: /application/.
+          dockerFileName: Dockerfile
+          dockerImageName: tamird.jfrog.io/vfrog/{{gitBranch}} # replace with your image path and name
+          dockerImageTag: ${run_number}
+          inputResources:
+            - name: prod_eng_assignment
+          integrations:
+            - name: artifactory_integration    # replace with your artifactory integration
+        execution:
+         onStart:
+           - sudo apt-get update
+           - sudo apt-get install tree
+           - tree .
+         onComplete:
+            - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
+
+
+
+
+      - name: docker_push
+        type: DockerPush
+        configuration:
+          affinityGroup: dbp_group
+          forceXrayScan: true
+          failOnScan: true
+          autoPublishBuildInfo: true
+          targetRepository: vfrog
+          integrations:
+            - name: artifactory_integration    # replace with your artifactory integration
+          inputSteps:
+            - name: {{gitBranch}}_docker_build
+          outputResources:
+            - name: image_resource1
+            - name: myDockerBuildInfo
+        execution:
+         onComplete:
+            - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
+
+      - name: {{gitBranch}}_helm_publish
+        type: HelmPublish
+        configuration:
+          affinityGroup: dbp_group
+          helmVersion: 3                            # optional, defaults to 2
+          chartPath: vfrog-helm # Path in git repo.
+          autoPublishBuildInfo: true                     # default false
+          inputSteps:
+            - name: docker_push
+          inputResources:
+            - name: prod_eng_assignment                     # required
+          outputResources:
+            - name: {{gitBranch}}_helm_chart1
+            - name: myHelmBuildInfo
+        execution:
+          onStart:
+            - export HELM_VERSION="3.4.1"
+            - curl -LO "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz"
+            - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
+            - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm
+            - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm3
+          onFailure:
+            - echo "uh oh, something went wrong"
+          onComplete: #always
+            - echo "Cleaning up some stuff"
+
+      - name: helm_deploy_{{gitBranch}}_vfrog
+        type: HelmDeploy
+        configuration:
+          helmVersion: 3
+          releaseName: vfrog
+          inputSteps:
+            - name: {{gitBranch}}_helm_publish
+          flags: --namespace {{gitBranch}} --debug --set image.repository=${res_image_resource1_imageName} --set image.tag=${run_number} # --set image.tag=${run_number}
+          integrations:
+            - name: gke_integration
+            - name: gke_integration_new
+          inputResources:
+            - name: {{gitBranch}}_helm_chart1
+            - name: image_resource1
+        execution:
+          onStart:
+            - export HELM_VERSION="3.4.1"
+            - curl -LO "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz"
+            - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
+            - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm
+            - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm3
+            - gcloud app update
+            - gcloud container clusters get-credentials vfrog --zone europe-west1-c --project vfrog-gke
