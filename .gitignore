@@ -1,5 +1,7 @@
 pipelines.yml
-ing.yaml
+ing_dev.yaml
+ing_prod.yaml
+ing_test.yaml
 clusterissuer.yaml
 basic-ingress.yaml
 cert.yaml
