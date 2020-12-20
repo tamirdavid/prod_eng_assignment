@@ -20,14 +20,6 @@ resources:
       imageTag: latest
       autoPull: true
 
-  - name: image_resource_rc
-    type: Image
-    configuration:
-      registry: artifactory_integration      # replace with your Artifactory integration
-      sourceRepository: docker-local  # required if registry is Artifactory
-      imageName: tamird.jfrog.io/vfrog/prod # replace with your image path and name
-      imageTag: latest
-      autoPull: true
 
   - name: myDockerBuildInfo
     type: BuildInfo
@@ -154,24 +146,6 @@ pipelines:
             - gcloud app update
             - gcloud container clusters get-credentials vfrog --zone europe-west1-c --project vfrog-gke
 
-      - name: docker_push_rc
-        type: DockerPush
-        configuration:
-            forceXrayScan: true
-            failOnScan: true
-            autoPublishBuildInfo: true
-            targetRepository: vfrog
-            integrations:
-              - name: artifactory_integration    # replace with your artifactory integration
-            inputSteps:
-              - name: {{gitBranch}}_docker_build
-              - name:  helm_deploy_{{gitBranch}}_vfrog
-            outputResources:
-              - name: image_resource_rc
-              - name: myDockerBuildInfo
-        execution:
-            onComplete:
-              - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
 
       - name: promoteBuild
         type: PromoteBuild
