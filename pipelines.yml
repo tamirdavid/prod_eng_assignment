@@ -59,7 +59,7 @@ pipelines:
             - name: gke_integration_new
           inputResources:
             - name: {{gitBranch}}_helm_chart
-            #- name: image_resource1
+            - name: image_resource
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
