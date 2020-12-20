@@ -149,8 +149,6 @@ pipelines:
             includeDependencies: false   # default false
             comment: "promote to production"
             copy: true
-#            inputSteps:
-#              - name: helm_deploy_{{gitBranch}}_vfrog
             inputResources:
               - name: myDockerBuildInfo
                 trigger: true
