@@ -155,8 +155,8 @@ pipelines:
             - gcloud container clusters get-credentials vfrog --zone europe-west1-c --project vfrog-gke
 
       - name: docker_push_rc
-          type: DockerPush
-          configuration:
+        type: DockerPush
+        configuration:
             affinityGroup: dbp_group
             forceXrayScan: true
             failOnScan: true
@@ -170,7 +170,7 @@ pipelines:
             outputResources:
               - name: image_resource_rc
               - name: myDockerBuildInfo
-          execution:
+        execution:
             onComplete:
               - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
 
