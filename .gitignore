@@ -1,3 +1,8 @@
+clusterissuer.yaml
+ing_dev.yaml
+ing_prod.yaml
+ing_test.yaml
+
 basic-ingress.yaml
 cert.yaml
 cluster_issuer_new.yaml
