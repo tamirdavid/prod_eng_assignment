@@ -74,8 +74,15 @@ pipelines:
           integrations:
             - name: artifactory_integration    # replace with your artifactory integration
         execution:
+         onStart:
+           - sudo apt-get update
+           - sudo apt-get install tree
+           - tree .
          onComplete:
             - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
+
+
+
 
       - name: docker_push
         type: DockerPush
