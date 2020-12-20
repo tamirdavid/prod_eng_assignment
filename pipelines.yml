@@ -12,7 +12,7 @@ resources:
     configuration:
       registry: artifactory_integration      # replace with your Artifactory integration
       sourceRepository: docker-local  # required if registry is Artifactory
-      imageName: tamird.jfrog.io/vfrog/{{gitBranch}} # replace with your image path and name
+      imageName: tamird.jfrog.io/vfrog/test # replace with your image path and name
       imageTag: latest
       autoPull: true
 
@@ -53,7 +53,7 @@ pipelines:
           releaseName: vfrog
 #          inputSteps:
 #            - name: {{gitBranch}}_helm_publish
-          flags: --namespace {{gitBranch}} #--debug --set image.repository=${res_image_resource1_imageName} --set image.tag=${run_number} # --set image.tag=${run_number}
+          flags: --namespace {{gitBranch}} --debug --set image.repository=${res_image_resource1_imageName} --set image.tag=${run_number} # --set image.tag=${run_number}
           integrations:
             - name: gke_integration
             - name: gke_integration_new
