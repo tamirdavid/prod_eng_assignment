@@ -141,9 +141,9 @@ pipelines:
             - gcloud app update
             - gcloud container clusters get-credentials vfrog --zone europe-west1-c --project vfrog-gke
 
-        - name: promoteBuild
-          type: PromoteBuild
-          configuration:
+      - name: promoteBuild
+        type: PromoteBuild
+        configuration:
             #inherits from bash
             targetRepository:      vfrog/prod
             includeDependencies:   true   # default false
@@ -155,7 +155,7 @@ pipelines:
                 trigger: false
             outputResources:
               - name: myDockerPromotionBuildInfo
-          execution:
+        execution:
             onStart:
               - echo "Preparing for work..."
             onSuccess:
