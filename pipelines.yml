@@ -51,14 +51,14 @@ pipelines:
         configuration:
           helmVersion: 3
           releaseName: vfrog
-          inputSteps:
-            - name: {{gitBranch}}_helm_publish
+#          inputSteps:
+#            - name: {{gitBranch}}_helm_publish
           flags: --namespace {{gitBranch}} #--debug --set image.repository=${res_image_resource1_imageName} --set image.tag=${run_number} # --set image.tag=${run_number}
           integrations:
             - name: gke_integration
             - name: gke_integration_new
           inputResources:
-            - name: {{gitBranch}}_helm_chart1
+            - name: {{gitBranch}}_helm_chart
             #- name: image_resource1
         execution:
           onStart:
