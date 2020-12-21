@@ -1,0 +1,101 @@
+resources:
+  - name: prod_eng_assignment3
+    type: GitRepo
+    configuration:
+      gitProvider: github_integration
+      path: tamirdavid/prod_eng_assignment
+      branches:
+        include: ^{{gitBranch}}$
+
+  - name: image_resource3
+    type: Image
+    configuration:
+      registry: artifactory_integration      # replace with your Artifactory integration
+      sourceRepository: docker-local  # required if registry is Artifactory
+      imageName: tamird.jfrog.io/vfrog/{{gitBranch}} # replace with your image path and name
+      imageTag: latest
+      autoPull: true
+
+  - name: myDockerBuildInfo3
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: artifactory_integration
+      buildName: vfrog-{{gitBranch}}
+      buildNumber: ${run_number}
+
+
+  - name: {{gitBranch}}_helm_chart
+    type: HelmChart
+    configuration:
+      sourceArtifactory: artifactory_integration
+      repository: vfrogProdBuilds
+      chart: vfrog-helm
+      version: 0.1.0
+
+pipelines:
+  - name: vfrog_{{gitBranch}}_pipeline
+    configuration:
+      environmentVariables:
+        readOnly:
+          my_env_var: "hello"
+
+    steps:
+      - name: {{gitBranch}}_docker_build
+        type: DockerBuild
+        configuration:
+          affinityGroup: dbp_group
+          dockerFileLocation: /application/.
+          dockerFileName: Dockerfile
+          dockerImageName: tamird.jfrog.io/vfrog/{{gitBranch}} # replace with your image path and name
+          dockerImageTag: ${run_number}
+          inputResources:
+            - name: prod_eng_assignment3
+          integrations:
+            - name: artifactory_integration    # replace with your artifactory integration
+        execution:
+          onComplete:
+            - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
+
+      - name: docker_push
+        type: DockerPush
+        configuration:
+          affinityGroup: dbp_group
+          forceXrayScan: true
+          failOnScan: true
+          autoPublishBuildInfo: true
+          targetRepository: vfrog
+          integrations:
+            - name: artifactory_integration    # replace with your artifactory integration
+          inputSteps:
+            - name: {{gitBranch}}_docker_build
+          outputResources:
+            - name: image_resource3
+            - name: myDockerBuildInfo3
+        execution:
+          onComplete:
+            - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
+
+
+      - name: helm_deploy_{{gitBranch}}_vfrog
+        type: HelmDeploy
+        configuration:
+          helmVersion: 3
+          releaseName: vfrog
+          inputSteps:
+            - name: docker_push
+          flags: --namespace prod --debug --set image.repository=${res_image_resource3_imageName} --set image.tag=${run_number} # --set image.tag=${run_number}
+          integrations:
+            - name: gke_integration
+            - name: gke_integration_new
+          inputResources:
+            - name: {{gitBranch}}_helm_chart
+            - name: image_resource3
+        execution:
+          onStart:
+            - export HELM_VERSION="3.4.1"
+            - curl -LO "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz"
+            - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
+            - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm
+            - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm3
+            - gcloud app update
+            - gcloud container clusters get-credentials vfrog --zone europe-west1-c --project vfrog-gke
