@@ -28,9 +28,9 @@ resources:
     type: HelmChart
     configuration:
       sourceArtifactory: artifactory_integration
-      repository: vfrogProdBuilds
+      repository: vfrog_webapp_helm_repo
       chart: vfrog-helm
-      version: 0.1.0
+      version: latest
 
 pipelines:
   - name: vfrog_{{gitBranch}}_pipeline
