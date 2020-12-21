@@ -40,9 +40,7 @@ resources:
         sourceArtifactory: artifactory_integration
         repository: vfrog_webapp_helm_repo
         chart: vfrog-helm
-        version: latest
-
-
+        version: 0.${run_number}.0
 
 
 pipelines:
@@ -53,6 +51,8 @@ pipelines:
           my_env_var: "hello"
 
     steps:
+    
+    
       - name: {{gitBranch}}_docker_build
         type: DockerBuild
         configuration:
@@ -65,15 +65,6 @@ pipelines:
             - name: prod_eng_assignment
           integrations:
             - name: artifactory_integration    # replace with your artifactory integration
-        execution:
-         onStart:
-           - sudo apt-get update
-           - sudo apt-get install tree
-           - tree .
-         onComplete:
-            - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
-
-
 
 
       - name: docker_push
@@ -116,10 +107,7 @@ pipelines:
             - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm3
-          onFailure:
-            - echo "uh oh, something went wrong"
-          onComplete: #always
-            - echo "Cleaning up some stuff"
+
 
       - name: helm_deploy_{{gitBranch}}_vfrog
         type: HelmDeploy
