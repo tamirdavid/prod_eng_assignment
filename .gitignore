@@ -1,3 +1,5 @@
+pipelines_test.yml
+pipelines_dev.yml
 pipelines_prod.yml
 pipelines.yml
 ing_dev.yaml
