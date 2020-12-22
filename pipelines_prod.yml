@@ -10,9 +10,9 @@ resources:
   - name: image_resource3
     type: Image
     configuration:
-      registry: artifactory_integration      # replace with your Artifactory integration
-      sourceRepository: docker-local  # required if registry is Artifactory
-      imageName: tamird.jfrog.io/vfrog/{{gitBranch}} # replace with your image path and name
+      registry: artifactory_integration   
+      sourceRepository: docker-local  
+      imageName: tamird.jfrog.io/vfrog/{{gitBranch}}
       imageTag: latest
       autoPull: true
 
@@ -30,14 +30,11 @@ resources:
       sourceArtifactory: artifactory_integration
       repository: vfrog_webapp_helm_repo
       chart: vfrog-helm
-      version: 0.1.0
+      version: ${run_number}
 
 pipelines:
   - name: vfrog_{{gitBranch}}_pipeline
-    configuration:
-      environmentVariables:
-        readOnly:
-          my_env_var: "hello"
+
 
     steps:
       - name: {{gitBranch}}_docker_build
@@ -46,15 +43,13 @@ pipelines:
           affinityGroup: dbp_group
           dockerFileLocation: /application/.
           dockerFileName: Dockerfile
-          dockerImageName: tamird.jfrog.io/vfrog/{{gitBranch}} # replace with your image path and name
+          dockerImageName: tamird.jfrog.io/vfrog/{{gitBranch}} 
           dockerImageTag: ${run_number}
           inputResources:
             - name: prod_eng_assignment3
           integrations:
-            - name: artifactory_integration    # replace with your artifactory integration
-        execution:
-          onComplete:
-            - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
+            - name: artifactory_integration 
+
 
       - name: docker_push
         type: DockerPush
@@ -65,15 +60,12 @@ pipelines:
           autoPublishBuildInfo: true
           targetRepository: vfrog
           integrations:
-            - name: artifactory_integration    # replace with your artifactory integration
+            - name: artifactory_integration  
           inputSteps:
             - name: {{gitBranch}}_docker_build
           outputResources:
             - name: image_resource3
             - name: myDockerBuildInfo3
-        execution:
-          onComplete:
-            - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
 
 
       - name: helm_deploy_{{gitBranch}}_vfrog
