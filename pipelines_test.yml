@@ -126,11 +126,10 @@ pipelines:
         type: Bash
         configuration:
           integrations:
-            - name: slackIntegration    
+            - name: slackIntegration
           inputSteps:
             - name: helm_deploy_{{gitBranch}}_vfrog
         execution:
           onSuccess:
-            - send_notification notifySlack --text "Image: ${res_image_resource2_imageName} in Version: ${run_number} is now available in {{gitBranch}} . Check https://test.clicorona.xyz" --recipient "#myChannel"
-
+            - send_notification slackIntegration --text "The image test In version ${run_number} is now available in {{gitBranch}} . Check https://test.clicorona.xyz" --recipient "#myChannel"
 
