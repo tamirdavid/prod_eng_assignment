@@ -91,3 +91,14 @@ pipelines:
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm3
             - gcloud app update
             - gcloud container clusters get-credentials vfrog --zone europe-west1-c --project vfrog-gke
+            
+            
+      - name: slack_notification
+        type: Bash
+        configuration:
+          integrations:
+            - name: slackIntegration    
+        execution:
+          onSuccess:
+            - send_notification notifySlack --text "Image: ${res_image_resource3_imageName} in Version: ${run_number} is now available in production. Check https://www.clicorona.xyz" --recipient "#myChannel"
+
