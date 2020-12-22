@@ -10,9 +10,9 @@ resources:
   - name: image_resource2
     type: Image
     configuration:
-      registry: artifactory_integration      # replace with your Artifactory integration
-      sourceRepository: docker-local  # required if registry is Artifactory
-      imageName: tamird.jfrog.io/vfrog/{{gitBranch}} # replace with your image path and name
+      registry: artifactory_integration  
+      sourceRepository: docker-local 
+      imageName: tamird.jfrog.io/vfrog/{{gitBranch}} 
       imageTag: latest
       autoPull: true
 
@@ -45,16 +45,10 @@ resources:
         repository: vfrog_webapp_helm_repo
         chart: vfrog-helm
         version: ${run_number}
-
-
-
+        
 
 pipelines:
   - name: vfrog_{{gitBranch}}_pipeline
-    configuration:
-      environmentVariables:
-        readOnly:
-          my_env_var: "hello"
 
     steps:
       - name: {{gitBranch}}_docker_build
@@ -63,15 +57,13 @@ pipelines:
           affinityGroup: dbp_group
           dockerFileLocation: /application/.
           dockerFileName: Dockerfile
-          dockerImageName: tamird.jfrog.io/vfrog/{{gitBranch}} # replace with your image path and name
+          dockerImageName: tamird.jfrog.io/vfrog/{{gitBranch}} 
           dockerImageTag: ${run_number}
           inputResources:
             - name: prod_eng_assignment2
           integrations:
-            - name: artifactory_integration    # replace with your artifactory integration
-        execution:
-         onComplete:
-            - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
+            - name: artifactory_integration  
+
 
       - name: docker_push
         type: DockerPush
@@ -82,15 +74,13 @@ pipelines:
           autoPublishBuildInfo: true
           targetRepository: vfrog
           integrations:
-            - name: artifactory_integration    # replace with your artifactory integration
+            - name: artifactory_integration    
           inputSteps:
             - name: {{gitBranch}}_docker_build
           outputResources:
             - name: image_resource2
             - name: myDockerBuildInfo1
-        execution:
-         onComplete:
-            - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
+
 
       - name: {{gitBranch}}_helm_publish
         type: HelmPublish
@@ -113,10 +103,6 @@ pipelines:
             - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm
             - ln -sf "$PWD/linux-amd64/helm" /usr/local/bin/helm3
-          onFailure:
-            - echo "uh oh, something went wrong"
-          onComplete: #always
-            - echo "Cleaning up some stuff"
 
       - name: helm_deploy_{{gitBranch}}_vfrog
         type: HelmDeploy
@@ -142,28 +128,3 @@ pipelines:
             - gcloud app update
             - gcloud container clusters get-credentials vfrog --zone europe-west1-c --project vfrog-gke
 
-
-#      - name: promoteBuild
-#        type: PromoteBuild
-#        configuration:
-#            #inherits from bash
-#            targetRepository: vfrogProdBuilds
-#            includeDependencies: true   # default false
-#            comment: "promote to production"
-#            copy: true
-#            inputSteps:
-#              - name: helm_deploy_{{gitBranch}}_vfrog
-#            inputResources:
-#              - name: myDockerBuildInfo1
-#                trigger: true
-#            outputResources:
-#              - name: myDockerPromotionBuildInfo
-#        execution:
-#            onStart:
-#              - echo "Preparing for work..."
-#            onSuccess:
-#              - echo "Job well done!"
-#            onFailure:
-#              - echo "uh oh, something went wrong"
-#            onComplete: #always
-#              - echo "Cleaning up some stuff"
