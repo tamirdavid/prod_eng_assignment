@@ -127,7 +127,7 @@ pipelines:
         type: Bash
         configuration:
           integrations:
-            - name: slackIntegration    
+            - name: slackIntegration
           inputSteps:
             - name: helm_deploy_{{gitBranch}}_vfrog
         execution:
