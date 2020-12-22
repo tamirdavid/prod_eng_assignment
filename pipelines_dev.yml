@@ -116,7 +116,7 @@ pipelines:
           releaseName: vfrog
           inputSteps:
             - name: {{gitBranch}}_helm_publish
-          flags: --namespace {{gitBranch}} --debug --set image.repository=${res_image_resource1_imageName} --set image.tag=${run_number} # --set image.tag=${run_number}
+          flags: --namespace {{gitBranch}} --debug --set image.repository=${res_image_resource1_imageName} --set image.tag=${run_number}
           integrations:
             - name: gke_integration
             - name: gke_integration_new
