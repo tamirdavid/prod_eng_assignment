@@ -98,6 +98,8 @@ pipelines:
         configuration:
           integrations:
             - name: slackIntegration    
+          inputSteps:
+            - name: helm_deploy_{{gitBranch}}_vfrog
         execution:
           onSuccess:
             - send_notification notifySlack --text "Image: ${res_image_resource3_imageName} in Version: ${run_number} is now available in production. Check https://www.clicorona.xyz" --recipient "#myChannel"
