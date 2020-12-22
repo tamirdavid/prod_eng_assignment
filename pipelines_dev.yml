@@ -132,6 +132,6 @@ pipelines:
             - name: helm_deploy_{{gitBranch}}_vfrog
         execution:
           onSuccess:
-            - send_notification notifySlack --text "New version is now available in {{gitBranch}} . Check https://dev.clicorona.xyz" --recipient "#myChannel"
+            - send_notification slackIntegration --text "New version is now available in {{gitBranch}} . Check https://dev.clicorona.xyz" --recipient "#myChannel"
 
 
