@@ -8,15 +8,12 @@ resources:
         include: ^{{gitBranch}}$
 
 
-# test dont move to test
-
-
   - name: image_resource1
     type: Image
     configuration:
-      registry: artifactory_integration      # replace with your Artifactory integration
-      sourceRepository: docker-local  # required if registry is Artifactory
-      imageName: tamird.jfrog.io/vfrog/{{gitBranch}} # replace with your image path and name
+      registry: artifactory_integration     
+      sourceRepository: docker-local 
+      imageName: tamird.jfrog.io/vfrog/{{gitBranch}}
       imageTag: latest
       autoPull: true
 
@@ -40,31 +37,26 @@ resources:
         sourceArtifactory: artifactory_integration
         repository: vfrog_webapp_helm_repo
         chart: vfrog-helm
-        version: 0.${run_number}.0
+        version: ${run_number}
 
 
 pipelines:
   - name: vfrog_{{gitBranch}}_pipeline
-    configuration:
-      environmentVariables:
-        readOnly:
-          my_env_var: "hello"
+
 
     steps:
-    
-    
       - name: {{gitBranch}}_docker_build
         type: DockerBuild
         configuration:
           affinityGroup: dbp_group
           dockerFileLocation: /application/.
           dockerFileName: Dockerfile
-          dockerImageName: tamird.jfrog.io/vfrog/{{gitBranch}} # replace with your image path and name
+          dockerImageName: tamird.jfrog.io/vfrog/{{gitBranch}} 
           dockerImageTag: ${run_number}
           inputResources:
             - name: prod_eng_assignment
           integrations:
-            - name: artifactory_integration    # replace with your artifactory integration
+            - name: artifactory_integration 
 
 
       - name: docker_push
@@ -76,27 +68,24 @@ pipelines:
           autoPublishBuildInfo: true
           targetRepository: vfrog
           integrations:
-            - name: artifactory_integration    # replace with your artifactory integration
+            - name: artifactory_integration  
           inputSteps:
             - name: {{gitBranch}}_docker_build
           outputResources:
             - name: image_resource1
             - name: myDockerBuildInfo
-        execution:
-         onComplete:
-            - echo "Running $pipeline_name | $step_name on Node ID $step_node_id"
 
       - name: {{gitBranch}}_helm_publish
         type: HelmPublish
         configuration:
           affinityGroup: dbp_group
-          helmVersion: 3                            # optional, defaults to 2
-          chartPath: vfrog-helm # Path in git repo.
-          autoPublishBuildInfo: true                     # default false
+          helmVersion: 3     
+          chartPath: vfrog-helm 
+          autoPublishBuildInfo: true 
           inputSteps:
             - name: docker_push
           inputResources:
-            - name: prod_eng_assignment                     # required
+            - name: prod_eng_assignment  
           outputResources:
             - name: {{gitBranch}}_helm_chart1
             - name: myHelmBuildInfo
