@@ -24,13 +24,6 @@ resources:
       buildName: vfrog-{{gitBranch}}
       buildNumber: ${run_number}
 
-  - name: myDockerPromotionBuildInfo
-    type: BuildInfo
-    configuration:
-      sourceArtifactory: artifactory_integration
-      buildName: vfrog-rc
-      buildNumber: ${run_number}
-
   - name: myHelmBuildInfo1
     type: BuildInfo
     configuration:
